@@ -1,13 +1,17 @@
 # Xcode Project Team
 
-A set of Claude Code skills for running Swift/Xcode projects — new development, feature work, or C/C++-to-Swift ports — under a director + role-subagent structure.
+A set of Claude Code skills and agents for running Swift/Xcode projects — new development, feature work, or C/C++-to-Swift ports — under a director + role-subagent structure.
 
-## Directors
+## Directors (Agents, not Skills)
 
 - **`swift-project-director`** — directs new or existing Swift/macOS/iOS development (greenfield design or brownfield feature work, not porting) using a PDCA plan/build/check/document cycle.
 - **`swift-port-director`** — directs C/C++-to-Swift porting projects, preserving functional parity, using the same PDCA cycle plus a mandatory parity-audit gate before any component is marked done.
 
 Both directors act as their own Planner (sequencing, decisions log, rulings on open questions) rather than delegating that role out, and orchestrate the roles below as subagents, each pointed at its own skill.
+
+These two live in `.claude/agents/` (not as top-level Skill directories) because Skill frontmatter can't enforce a model or tool set — only a real Claude Code Agent definition does, and both directors are meant to always run on Sonnet with full tool access regardless of whatever model invoked them. Each has a matching top-level Skill directory (`swift-port-director/`, `swift-project-director/`) kept only as a thin pointer, so the capability still surfaces in the Skill listing but immediately redirects to `Agent(subagent_type: "swift-port-director")` (or `swift-project-director`) instead of trying to act out the role inline.
+
+**Install**: copy or symlink `.claude/agents/*.md` into `~/.claude/agents/` (same pattern as installing the Skills below into `~/.claude/skills/`).
 
 ## Roles
 
