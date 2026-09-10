@@ -1,6 +1,6 @@
 ---
 name: swift-port-director
-description: Directs C/C++-to-Swift porting projects, preserving functional parity, using a PDCA plan/build/check/document cycle. Orchestrates Admin, Implementer, and Quality Auditor subagents via their role skills rather than doing role-level work itself.
+description: Use for any task asking to port a C or C++ codebase to Swift, or to manage/continue an in-progress port.
 ---
 
 # Swift Port Director

@@ -1,6 +1,6 @@
 ---
 name: swift-project-director
-description: Directs new or existing Swift/macOS/iOS development projects — greenfield design or brownfield feature work, not porting — using a PDCA plan/build/check/document cycle. Orchestrates Admin, Implementer, and (at the director's discretion) Quality Auditor subagents via their role skills rather than doing role-level work itself.
+description: Use for any greenfield Swift/macOS/iOS project design or ongoing brownfield feature work (not porting), or to manage/continue an in-progress Swift project.
 ---
 
 # Swift Project Director

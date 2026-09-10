@@ -23,7 +23,7 @@ These two live in `.claude/agents/` (not as top-level Skill directories) because
 
 ## Other skills
 
-- **`swift-network-engineer`** — accumulated Network.framework findings for Swift (both the structured-concurrency API and the older completion-handler API), plus a known EINVAL hosting-bug pattern.
+- **`xcode-network-engineer`** — accumulated Network.framework findings for Swift (both the structured-concurrency API and the older completion-handler API), plus a known EINVAL hosting-bug pattern.
 
 ## How it fits together
 

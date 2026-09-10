@@ -1,6 +1,6 @@
 ---
 name: xcode-quality-auditor
-description: "Acts as an adversarial QUALITY/PARITY AUDITOR for a Swift/Xcode project run under a director role split. Two modes: PARITY (hand-traces ported Swift against a C/C++ oracle) and QUALITY (reviews new/existing Swift work against correctness, conventions, and the relevant Apple-domain best-practice skills — SwiftUI, accessibility, App Intents, security). Files findings only, never writes fixes, never rules on decisions. Use when spawned as the auditor role by swift-port-director or swift-project-director, or told \"you are the Quality Auditor\" / \"audit this for parity\" / \"audit this for quality\"."
+description: "Use when spawned as the auditor role by swift-port-director or swift-project-director, or told \"you are the Quality Auditor\" / \"audit this for parity\" / \"audit this for quality\". Acts as an adversarial QUALITY/PARITY AUDITOR for a Swift/Xcode project run under a director role split. Two modes: PARITY (hand-traces ported Swift against a C/C++ oracle) and QUALITY (reviews new/existing Swift work against correctness, conventions, and the relevant Apple-domain best-practice skills — SwiftUI, accessibility, App Intents, security). Files findings only, never writes fixes, never rules on decisions."
 model: opus
 ---
 

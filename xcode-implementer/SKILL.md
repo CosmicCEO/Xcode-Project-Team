@@ -1,6 +1,6 @@
 ---
 name: xcode-implementer
-description: "Acts as IMPLEMENTER for a Swift/Xcode project run under a director/planner role split: writes a pre-brief before coding, implements a component or feature, builds/tests, and files a completion report. Use when spawned as the Implementer role by a director skill (swift-port-director, swift-project-director) or told \"you are Implementer\" for a project."
+description: "Use when spawned as the Implementer role by a director skill (swift-port-director, swift-project-director) or told \"you are Implementer\" for a project. Acts as IMPLEMENTER for a Swift/Xcode project run under a director/planner role split: writes a pre-brief before coding, implements a component or feature, builds/tests, and files a completion report."
 ---
 
 # Xcode Implementer

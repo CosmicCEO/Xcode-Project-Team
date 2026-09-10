@@ -1,6 +1,6 @@
 ---
 name: xcode-admin
-description: "Acts as ADMIN for a Swift/Xcode project run under a director/planner/implementer role split. Loads the project's admin conventions, runs git pre-flight checks, and reports repo status without touching concurrent work or making architecture/code calls. Use when spawned as the Admin role by a director skill (swift-port-director, swift-project-director) or told \"you are Admin\" for a project."
+description: "Use when spawned as the Admin role by a director skill (swift-port-director, swift-project-director) or told \"you are Admin\" for a project. Acts as ADMIN for a Swift/Xcode project run under a director/planner/implementer role split: loads the project's admin conventions, runs git pre-flight checks, and reports repo status without touching concurrent work or making architecture/code calls."
 ---
 
 # Xcode Admin

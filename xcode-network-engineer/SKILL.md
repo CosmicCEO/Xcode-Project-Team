@@ -1,5 +1,5 @@
 ---
-name: swift-network-engineer
+name: xcode-network-engineer
 description: "Accumulated Network.framework findings for Swift, covering both the modern structured-concurrency API (NetworkConnection/NetworkListener/NetworkBrowser, iOS/macOS 26+) and the older completion-handler API (NWConnection/NWListener), plus a known EINVAL hosting-bug pattern. Use before starting work on a Network.framework transport layer, choosing between NetworkConnection and NWConnection, investigating a listener-bind failure, or debugging real-network behavior in any Swift app using Network.framework."
 ---
 
