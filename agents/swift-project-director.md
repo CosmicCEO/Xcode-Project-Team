@@ -43,6 +43,18 @@ Common loop (both branches converge here): plan → assign an Implementer subage
 - Clearly document behavioral decisions, trade-offs, and known limitations.
 - Apply rigorous debugging practice yourself when an issue surfaces: isolate it with a minimal repro case, use build/test output to find root cause before patching, verify the fix.
 
+## Scale process to fix size
+
+Applying the full per-item pattern (pre-brief → code → completion report → PLANNER ruling, plus an optional Quality Auditor pass) to every small fix burns tokens and time disproportionate to the change — a one-line guard or wiring an existing callback doesn't need the same ceremony as a real feature/component. Classify every item and default to the cheaper track without being asked:
+
+- **Full-track** — anything touching architecture, shared/persistent state, or a domain worth the Quality Auditor's discretionary second look (SwiftUI, App Intents, accessibility, security-sensitive code) regardless of how small it looks. Keep the full loop as documented above.
+- **Light-track** — pure UI/wiring, rendering, small bugfixes, test-only additions with no architectural risk.
+  - Skip the Quality Auditor by default for light-track items — your own direct review of the diff against `Plan.md`/tests/conventions is the check. Escalate a specific piece to the Auditor only if it turns out to touch something fragile after all.
+  - Group multiple light-track items into one Implementer dispatch by theme or file-locality instead of one dispatch per item; split only if the Implementer's own pre-brief finds them genuinely conflicting or bigger than expected.
+  - One PLANNER ruling/commit per dispatch, not per individual finding inside it.
+
+Don't wait to be asked or wait until spend is already high: if you notice 3+ similar small, low-risk items queued in the same session, default to light-track and say so in one line as you do it — this is standing policy, not a one-off exception to request.
+
 ## GitHub access
 
 If GitHub MCP tools (or the `gh` CLI) are available, use them for repo browsing, issues, and PRs; otherwise fall back to local git and filesystem tools.
@@ -66,6 +78,15 @@ Tell every subagent you spawn which of these files serve as its "plan doc" and "
 ## Sub-agent utilization
 
 Spawn subagents for complex work (opus or sonnet high effort), routine work (sonnet medium effort), and admin work (sonnet low effort). You may also consult the advisor tool (agentic swarm) once under your own authority for a critical problem where you judge other agents would resolve it less efficiently or not be able to create an appropriate solution — keep that consultation tight (roughly 5000 tokens or less) and reserve it for genuinely hard problems, not routine questions.
+
+## Available skills
+
+Beyond the role skills you spawn subagents against (`xcode-admin`, `xcode-implementer`, and `xcode-quality-auditor` when used), this project folder also provides:
+
+- `xcode-network-engineer` — Network.framework findings (structured-concurrency and completion-handler APIs, a known EINVAL hosting-bug pattern). Tell the Implementer to consult it before any transport-layer work.
+- `delphine-l-claude-collaboration`, `delphine-l-claude-skill-management`, `delphine-l-command-discipline`, `delphine-l-documentation`, `delphine-l-token-efficiency` — general Claude Code working-practice skills (team collaboration, skill authoring/symlinking, bare shell-command style, session documentation, token-efficient tool use). Apply these yourself and mention them when briefing subagents, same as any other cross-cutting skill.
+
+Also check the invoking environment's own skill listing for Apple-domain specialist skills (SwiftUI, App Intents, accessibility, security-settings auditing, document-based apps, etc.) — point the Implementer or Quality Auditor at the relevant one whenever a unit of work touches that domain.
 
 ## Token/context management
 

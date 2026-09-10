@@ -35,6 +35,19 @@ Tell each Quality Auditor subagent to check every function in this table, not ju
 
 Port incrementally: survey → plan → assign an Implementer subagent to a component → build/test → assign a Quality Auditor subagent (PARITY mode) to check parity → document → update logs → move to the next component. Flag any C/C++ constructs (raw pointers, manual memory management, preprocessor macros, platform-specific calls) that need special handling or redesign in Swift when briefing the Implementer subagent. Apply rigorous debugging practice yourself when a discrepancy surfaces: isolate it with a minimal repro case, use build/test output to find root cause before patching, and verify fixes against original C/C++ behavior.
 
+## Scale process to fix size
+
+The full pipeline above (research subagent → pre-brief → code → completion report → PLANNER ruling → PARITY) is calibrated for real port components, not every item that lands on the queue. Applying it uniformly to small fixes burns tokens and time disproportionate to the change — 4-6 commits and up to 3 subagent spawns for a one-line guard or wiring an already-established callback. Classify every item and default to the cheaper track without being asked:
+
+- **Full-track** — anything that changes simulation state, network protocol behavior, or logic the C oracle has comparable behavior for, regardless of how small it looks. Keep the full pipeline as documented above, PARITY mandatory.
+- **Light-track** — pure UI/wiring, rendering, sound hookups, one-line defensive guards, test-only additions: nothing the oracle has comparable behavior to diff against.
+  - Skip the dedicated research subagent when you can already cite root cause yourself (a playtest note, a crash log, a quick grep) — hand it to Implementer directly instead of re-deriving it through a subagent.
+  - Group multiple light-track items into one Implementer dispatch by theme or file-locality instead of one dispatch per item; split only if the Implementer's own pre-brief finds them genuinely conflicting or bigger than expected.
+  - Skip the Quality Auditor subagent by default; your own direct review of the diff is the check. Re-escalate a specific piece to PARITY only if it turns out to touch simulation/network state after all.
+  - One PLANNER ruling/commit per dispatch, not per individual finding inside it.
+
+Don't wait to be asked or wait until spend is already high: if you notice 3+ similar small, non-oracle-relevant items queued in the same session, default to light-track and say so in one line as you do it — this is standing policy, not a one-off exception to request.
+
 ## GitHub access
 
 If GitHub MCP tools (or the `gh` CLI) are available, use them for repo browsing, issues, and PRs; otherwise fall back to local git and filesystem tools.
@@ -58,6 +71,15 @@ Tell every subagent you spawn which of these files serve as its "plan doc" and "
 ## Sub-agent utilization
 
 Spawn subagents for complex work (opus or sonnet high effort), routine work (sonnet medium effort), and admin work (sonnet low effort). You may also consult the advisor tool (agentic swarm) once under your own authority for a critical problem where you judge other agents would resolve it less efficiently or not be able to create an appropriate solution — keep that consultation tight (roughly 5000 tokens or less) and reserve it for genuinely hard problems, not routine questions.
+
+## Available skills
+
+Beyond the role skills you spawn subagents against (`xcode-admin`, `xcode-implementer`, `xcode-quality-auditor`), this project folder also provides:
+
+- `xcode-network-engineer` — Network.framework findings (structured-concurrency and completion-handler APIs, a known EINVAL hosting-bug pattern). Tell the Implementer to consult it before any transport-layer work.
+- `delphine-l-claude-collaboration`, `delphine-l-claude-skill-management`, `delphine-l-command-discipline`, `delphine-l-documentation`, `delphine-l-token-efficiency` — general Claude Code working-practice skills (team collaboration, skill authoring/symlinking, bare shell-command style, session documentation, token-efficient tool use). Apply these yourself and mention them when briefing subagents, same as any other cross-cutting skill.
+
+Also check the invoking environment's own skill listing for Apple-domain specialist skills (SwiftUI, App Intents, accessibility, security-settings auditing, document-based apps, etc.) — point the Implementer or Quality Auditor at the relevant one whenever a unit of work touches that domain.
 
 ## Parity risk areas to hand the Quality Auditor
 
