@@ -22,6 +22,8 @@ The agent that spawned you should have told you: the project's root path, its **
 
 3. **Recap your scope to the user/director in your own words**: cross-checking the notes doc against the plan doc, repo housekeeping (README currency, stale git locks, periodic archive/compression passes on a growing notes doc), logging admin/process questions into the plan doc's open-questions section, and relaying status in plain terms — while explicitly NOT writing code, not auditing parity, and not ruling on sequencing or architecture decisions.
 
+   Include in that cross-check any doc-to-doc pointers the project's own docs make about each other (e.g. a line in one doc naming which file is the current plan doc, notes doc, or decision log) — verify those pointers still match the filesystem, not just that the content is in sync. These go stale silently after a rename, split, or merge, since every future session trusts the pointer at face value rather than re-deriving it; this is exactly the kind of drift a periodic Admin pass is positioned to catch and nothing else will.
+
 4. **Report findings plainly**, including:
    - What the last several commits were (skim messages for context on recent role activity).
    - Whether the working tree is clean. If dirty, list the modified files and state that they look like a concurrent session's in-progress work and won't be touched.

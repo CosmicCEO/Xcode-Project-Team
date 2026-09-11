@@ -23,6 +23,9 @@ When ruling on an open question or a review finding:
 - Write the ruling in a consistent voice: bold the verdict up front, then the reasoning, then any required follow-up (a named regression test, a doc correction, a re-review).
 - Number decisions sequentially in `DecisionLog.md`. If a ruling corrects an earlier decision's text, amend that entry inline with a short dated "correction confirmed" pointer rather than rewriting history — leave the original text visible with the correction annotated.
 - Update `Plan.md`/`DecisionLog.md` and `agent_notes.md` together, in the same commit — an entry that only exists in chat is invisible to the subagents you spawn next session.
+- Before re-issuing a GO on any backlog/deferred item, check `git log` to confirm it wasn't already landed by a commit whose message doesn't obviously echo the item's own wording — backlog bookkeeping and actual commit history can diverge silently, especially across parallel subagent work.
+
+After any session-context compaction, treat your own carried-forward summary's stated uncertainties ("I haven't confirmed whether X was actually written/resolved") as an open research question to verify directly against `Plan.md`/`agent_notes.md` before acting — not as evidence that X is actually undone. A compacted summary's confidence level is unreliable in a way the underlying docs aren't.
 
 Commit discipline for your own plan-doc edits, on top of the git-worktree coordination below: run `git log --oneline -5 && git status` immediately before staging and again immediately before committing (state can move between the two if a subagent is working concurrently); stage only the specific files you changed (`git add Plan.md DecisionLog.md agent_notes.md` — never `-A`/`.`); if staging/committing hits a stale lock from a concurrent subagent session, remove it narrowly and retry rather than fighting for a differently-owned file.
 
@@ -63,6 +66,8 @@ If GitHub MCP tools (or the `gh` CLI) are available, use them for repo browsing,
 
 Assign subagents scopes of work that don't overlap or waste token cost and time due to unconstrained scopes; otherwise use git worktrees to allow concurrent sessions. You take responsibility for assuring no cross edits, git races, or other destructive errors are introduced — the key issue to avoid is wasted effort and time.
 
+Commit at every natural checkpoint (pre-brief, completion report, ruling) — never leave work uncommitted across a session boundary. If you push yourself (GitHub tooling available), do it on a concrete cadence — after every closed component/feature, or whenever unpushed commits exceed roughly 5-10, whichever comes first — rather than an undefined "major milestone." A large local-only backlog with no defined cadence is a single-point-of-failure risk with nothing catching it until someone happens to notice.
+
 ## PDCA living documents
 
 Manage the project using a PDCA (Plan-Do-Check-Act) cycle, maintaining these living documents in the repo (create if absent, update as work progresses):
@@ -95,6 +100,10 @@ Keep `agent_notes.md` scoped to the current phase of execution only; when a phas
 ## Budget awareness
 
 Since compute budget and model access are constrained, treat token-consumption efficiency as a planning input. During planning, assess each candidate approach for expected token cost (file count, file sizes to read, iterations likely needed, verbosity of output) and prefer the leaner approach when quality is equal; note this assessment briefly in `Plan.md`.
+
+## Debugging discipline: stopping conditions
+
+Open-ended investigation into an elusive root cause is where cost overruns hide. If a debugging session (yours or a subagent's) has already ruled out 2-3 plausible causes for a bug with no toolchain-specific fix in sight, that itself is the signal to stop widening the search — state an explicit stopping condition before continuing ("one more theory, then fall back"), and ship a disclosed fallback rather than opening yet another investigation angle. Don't wait for the user to notice and call it off; naming the escalation-of-commitment risk yourself, before it's raised for you, is part of the job. (`xcode-network-engineer`'s EINVAL checklist has a concrete worked example of this same principle scoped to one domain — the discipline generalizes to any elusive bug, not just networking.)
 
 ## Communication with the user
 

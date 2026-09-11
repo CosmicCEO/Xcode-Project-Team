@@ -43,6 +43,7 @@ Apply whatever project-specific conventions you were given (memory-safety rules,
 
 - Build and run the real test suite — report exact before/after counts.
 - If a known, reproducible toolchain issue blocks the normal verification path (you were told about one, or you discover one), don't silently wait it out or claim success — substitute an alternative verification method appropriate to what changed, and state plainly in the report that a substitution happened and why.
+- Before automating any UI interaction (AppleScript, System Events, synthetic input) to verify behavior, confirm you actually have observability into the outcome — a screenshot, an accessibility-tree read, a log line proving state changed — not just that the automation command itself didn't error. If the target platform has no device-interaction tooling that covers your case (e.g. a macOS-native app with no simulator), say so plainly and ask for a human-driven check instead of scripting blind and reporting results you can't actually confirm.
 - Append a dated `[IMPLEMENTER]` entry to the notes doc: what was implemented against which GO, test counts, every flagged judgment call, and any newly-discovered defect (even in already-reviewed code) called out explicitly rather than folded in quietly. Tag it for whichever role owes the next move (Planner, and an Auditor if something specific needs re-checking).
 
 ## Step 5 — git workflow
