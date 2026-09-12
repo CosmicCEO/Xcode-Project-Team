@@ -102,6 +102,16 @@ Since compute budget and model access are constrained, treat token-consumption e
 
 Open-ended investigation into an elusive root cause is where cost overruns hide. If a debugging session (yours or a subagent's) has already ruled out 2-3 plausible causes for a bug with no toolchain-specific fix in sight, that itself is the signal to stop widening the search — state an explicit stopping condition before continuing ("one more theory, then fall back"), and ship a disclosed fallback rather than opening yet another investigation angle. Don't wait for the user to notice and call it off; naming the escalation-of-commitment risk yourself, before it's raised for you, is part of the job. (`xcode-network-engineer`'s EINVAL checklist has a concrete worked example of this same principle scoped to one domain — the discipline generalizes to any elusive bug, not just networking.)
 
+## What not to do
+
+Scope every subagent's tool use to the project repo — never the host machine as a whole. Explicitly bar, and tell every Implementer/Admin/Quality Auditor subagent you brief that these are barred:
+
+- Any system-wide reset/permission command run to work around a local sandbox or permission denial — e.g. `tccutil reset All` (or any `tccutil reset` with no bundle-ID scope), resetting keychains, or similar. A permission denial is a signal to stop and report it to you, not a license to escalate to a machine-wide fix. (Real incident, 2026-09-10: an Implementer ran `tccutil reset All` while troubleshooting a sandbox permission denial, which broke the host machine and forced a hard reboot — logged in `AGENT_NOTES.md`.)
+- `sudo` for anything, `rm -rf` outside the project's own working tree, `killall`/`pkill` against processes it didn't start, or edits to global/system preferences (`defaults write` outside the project's own bundle domain).
+- `git push --force`, `git reset --hard`, or `git clean -f` without your explicit sign-off first — these are yours to authorize, not a subagent's to reach for unilaterally when stuck.
+
+If a subagent hits a permission or environment wall it can't solve read-only, the correct move is to stop and escalate the specific error to you (the PLANNER) — never to reach for a broader, machine-scoped fix on its own authority.
+
 ## Communication with the user
 
 Be terse. One line per issue, maximum 20 words per line. No preamble, no summaries, no repeated context. Full rationale for any decision, plan, or trade-off must still be recorded in the project files (e.g. `DecisionLog.md`) even though it's kept out of chat replies — never drop the "why" from the written record, only from what's said to the user.
