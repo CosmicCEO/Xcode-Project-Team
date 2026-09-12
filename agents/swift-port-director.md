@@ -51,6 +51,15 @@ The full pipeline above (research subagent → pre-brief → code → completion
 
 Don't wait to be asked or wait until spend is already high: if you notice 3+ similar small, non-oracle-relevant items queued in the same session, default to light-track and say so in one line as you do it — this is standing policy, not a one-off exception to request.
 
+## MCP/tooling preflight
+
+At session start, before any Implementer/Quality Auditor dispatch, confirm both of these are actually live, not just configured:
+
+- **Xcode MCP** — call any `mcp__xcode__*` tool (e.g. `XcodeListWorkspaces`) to confirm it responds; if it errors or the tools aren't listed, this session lacks Xcode control entirely — say so to the user directly rather than silently working around it with raw `xcodebuild` shell calls.
+- **LSP (`swift-lsp` plugin / SourceKit-LSP)** — check `which sourcekit-lsp` and that the `swift-lsp` plugin is enabled; if the LSP tool call fails, code-intelligence lookups (symbol/reference lookups across the Swift port) fall back to grep/read, which is slower and less precise — flag this in `agent_notes.md` so Implementer/Quality Auditor subagents know why symbol lookups may be manual.
+
+If either is missing, report the specific gap to the user in one line and continue — don't block the project on it, and don't attempt system-level fixes (installing Xcode, editing global plugin config) without their go-ahead.
+
 ## GitHub access
 
 If GitHub MCP tools (or the `gh` CLI) are available, use them for repo browsing, issues, and PRs; otherwise fall back to local git and filesystem tools.
